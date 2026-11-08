@@ -13,7 +13,7 @@ ce-type: google.cloud.pubsub.topic.v1.messagePublished
 ce-source: //pubsub.googleapis.com/projects/my-proj/topics/my-topic
 {
     "message": {
-        "data": "5pel5pys6KqeJuiomOWPtj0xMDAl",
+        "data": "5pel5pys6KqeJuiomOWPtz0xMDAl",
         "messageId": "msg-002"
     }
 }

@@ -27,6 +27,6 @@ HTTP 200
 [Asserts]
 jsonpath "$[0].service" == "google.pubsub.v1.Publisher"
 jsonpath "$[0].method" == "Publish"
-jsonpath "$[0].data.topic" == "projects/my-project/topics/downstream-topic"
+jsonpath "$[0].requests[0].topic" == "projects/my-project/topics/downstream-topic"
 # Protobuf の bytes フィールドは JSON 表現では base64 文字列として格納される
-jsonpath "$[0].data.messages[0].data" == "aGVsbG8tZG93bnN0cmVhbS1wdWJzdWI="
+jsonpath "$[0].requests[0].messages[0].data" == "aGVsbG8tZG93bnN0cmVhbS1wdWJzdWI="

@@ -1,4 +1,4 @@
-module pubsub-to-pubsub-function
+module example.com/pubsub-to-pubsub-function
 
 go 1.27
 

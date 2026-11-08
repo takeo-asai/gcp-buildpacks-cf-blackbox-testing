@@ -27,7 +27,7 @@ linters:
     revive:
       rules:
         - name: blank-imports
-        - name: context-as-first-argument
+        - name: context-as-argument
         - name: error-return
         - name: error-strings
         - name: error-naming

@@ -1,4 +1,4 @@
-module pubsub-to-http-function
+module example.com/pubsub-to-http-function
 
 go 1.27
 

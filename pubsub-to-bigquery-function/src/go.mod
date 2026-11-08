@@ -1,4 +1,4 @@
-module pubsub-to-bigquery-function
+module example.com/pubsub-to-bigquery-function
 
 go 1.27
 
