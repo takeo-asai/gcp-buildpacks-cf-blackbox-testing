@@ -1,0 +1,45 @@
+# mise (mise-en-place) 設定ファイル - BigQuery App
+
+[tools]
+go = "1.27"
+"aqua:buildpacks/pack" = "latest"
+"aqua:Orange-OpenSource/hurl" = "latest"
+"aqua:golangci/golangci-lint" = "latest"
+
+[tasks.fmt]
+description = "コードのフォーマット (gofmt)"
+run = "cd src && go fmt ./..."
+
+[tasks.lint]
+description = "golangci-lint による静的解析"
+run = "cd src && go mod tidy && golangci-lint run --config ../.golangci.yml ./..."
+
+[tasks.build]
+description = "src/ ディレクトリを対象に pack CLI でコンテナをビルド"
+run = """
+cd src && go mod tidy && cd ..
+pack build test-bq-function:local \
+  --path src \
+  --builder gcr.io/buildpacks/builder:v1 \
+  --env GOOGLE_FUNCTION_TARGET=ProcessPubSubToBQ
+"""
+
+[tasks.test]
+description = "テスト用コンテナ環境を起動し、Hurl で直列テストして自動停止"
+depends = ["build"]
+run = """
+COMPOSE_FILE="tests/compose.blackbox.yaml"
+trap 'docker compose -f ${COMPOSE_FILE} down -v' EXIT
+
+echo "==> Starting test containers..."
+docker compose -f ${COMPOSE_FILE} up -d --wait
+
+echo "==> Running Hurl tests sequentially (tests/cases/*.hurl)..."
+hurl --test --jobs 1 tests/cases/*.hurl
+
+echo "🎉 All tests passed!"
+"""
+
+[tasks.check]
+description = "フォーマット、リント、テストを一括実行"
+depends = ["fmt", "lint", "test"]

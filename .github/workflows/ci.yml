@@ -1,0 +1,33 @@
+name: CI (Lint & Blackbox Tests)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  blackbox-test:
+    name: Test (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - pubsub-to-http-function
+          - pubsub-to-bigquery-function
+          - pubsub-to-pubsub-function
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          working_directory: ${{ matrix.project }}
+
+      - name: Run Lint
+        working-directory: ${{ matrix.project }}
+        run: mise run lint
+
+      - name: Run Blackbox Test
+        working-directory: ${{ matrix.project }}
+        run: mise run test

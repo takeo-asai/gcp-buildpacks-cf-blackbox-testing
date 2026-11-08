@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/bigquery/v2/projects/.*/datasets/.*/tables/.*/insertAll"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "kind": "bigquery#tableDataInsertAllResponse"
+    }
+  }
+}

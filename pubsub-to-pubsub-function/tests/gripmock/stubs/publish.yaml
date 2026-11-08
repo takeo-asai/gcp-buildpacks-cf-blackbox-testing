@@ -1,0 +1,9 @@
+- service: Publisher
+  method: Publish
+  input:
+    contains:
+      topic: "projects/my-project/topics/downstream-topic"
+  output:
+    data:
+      message_ids:
+        - "mock-msg-id-001"

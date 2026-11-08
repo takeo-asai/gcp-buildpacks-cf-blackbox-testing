@@ -1,0 +1,29 @@
+services:
+  # Pub/Sub gRPC API を受け止める汎用 gRPC モックサーバー (GripMock)
+  # 4770: gRPC 待ち受けポート / 4771: HTTP 管理 API ポート (Hurl 検証用)
+  gripmock:
+    image: bavix/gripmock:latest
+    ports:
+      - "4770:4770"
+      - "4771:4771"
+    volumes:
+      - ./gripmock/proto:/proto:ro
+      - ./gripmock/stubs:/stubs:ro
+    command: ["--stub=/stubs", "/proto/pubsub.proto"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:4771/api/health/readiness"]
+      interval: 1s
+      timeout: 2s
+      retries: 15
+
+  # pack CLI でビルドされた Cloud Function コンテナ
+  cloud-function:
+    image: test-pubsub-function:local
+    ports:
+      - "8080:8080"
+    environment:
+      # 全言語の Google Cloud Pub/Sub SDK 共通の環境変数（自動的に指定ホストへ平文 gRPC 送信）
+      - PUBSUB_EMULATOR_HOST=gripmock:4770
+    depends_on:
+      gripmock:
+        condition: service_healthy

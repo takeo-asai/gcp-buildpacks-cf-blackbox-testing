@@ -1,0 +1,31 @@
+# ルート mise 設定ファイル
+# リポジトリ全体のツール管理 & 全プロジェクト一括実行タスク
+
+[tools]
+go = "1.27"
+"aqua:buildpacks/pack" = "latest"
+"aqua:Orange-OpenSource/hurl" = "latest"
+"aqua:golangci/golangci-lint" = "latest"
+
+[tasks."test:http"]
+description = "1. pubsub-to-http-function のブラックボックステスト"
+dir = "pubsub-to-http-function"
+run = "mise run check"
+
+[tasks."test:bigquery"]
+description = "2. pubsub-to-bigquery-function のブラックボックステスト"
+dir = "pubsub-to-bigquery-function"
+run = "mise run check"
+
+[tasks."test:pubsub"]
+description = "3. pubsub-to-pubsub-function のブラックボックステスト"
+dir = "pubsub-to-pubsub-function"
+run = "mise run check"
+
+[tasks.test]
+description = "全サンプルのブラックボックステストを順番に実行"
+run = """
+mise run test:http
+mise run test:bigquery
+mise run test:pubsub
+"""

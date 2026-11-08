@@ -1,0 +1,17 @@
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Go
+bin/
+dist/
+*.exe
+*.test
+*.out
+go.work
+
+# mise local overrides
+mise.local.toml
+.mise.local.toml

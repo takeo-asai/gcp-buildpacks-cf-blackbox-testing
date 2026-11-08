@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.pubsub.v1;
+
+option go_package = "cloud.google.com/go/pubsub/apiv1/pubsubpb;pubsubpb";
+
+service Publisher {
+  rpc Publish(PublishRequest) returns (PublishResponse);
+}
+
+message PublishRequest {
+  string topic = 1;
+  repeated PubsubMessage messages = 2;
+}
+
+message PubsubMessage {
+  bytes data = 1;
+  map<string, string> attributes = 2;
+  string message_id = 3;
+}
+
+message PublishResponse {
+  repeated string message_ids = 1;
+}
