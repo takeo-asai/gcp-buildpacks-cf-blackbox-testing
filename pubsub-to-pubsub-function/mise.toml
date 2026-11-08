@@ -20,7 +20,7 @@ run = """
 cd src && go mod tidy && cd ..
 pack build test-pubsub-function:local \
   --path src \
-  --builder gcr.io/buildpacks/builder:v1 \
+  --builder gcr.io/buildpacks/builder:latest \
   --env GOOGLE_FUNCTION_TARGET=ProcessPubSubToPubSub
 """
 

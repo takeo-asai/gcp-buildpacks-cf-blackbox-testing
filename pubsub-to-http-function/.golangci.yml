@@ -1,4 +1,6 @@
-# golangci-lint 設定ファイル (Go 界隈のデファクトスタンダード)
+# golangci-lint 設定ファイル (Go 界隈のデファクトスタンダード - v2 スキーマ)
+version: "2"
+
 run:
   timeout: 5m
   tests: true
@@ -9,32 +11,35 @@ linters:
     - errcheck      # エラーの未チェックを検出
     - govet         # go vet の標準チェック
     - ineffassign   # 無駄な変数代入を検出
-    - staticcheck   # 静的解析（バグ・パフォーマンス）
+    - staticcheck   # 静的解析（バグ・パフォーマンス・旧gosimple含む）
     - unused        # 未使用のコード・定数・変数を検出
-    - gosimple      # コードの簡略化を提案
 
     # 実務で一般的に導入される高品質リンター
     - revive        # golint の公式後継・高速なスタイルチェッカー
-    - goimports     # import の自動ソート・未使用 import 検出
-    - gofmt         # gofmt に準拠したフォーマットチェック
     - misspell      # 英単語のスペルミス検出
     - gocritic      # 最適化・バグの疑いがあるイディオムの検出
 
-linters-settings:
-  govet:
-    enable-all: true
-  revive:
-    rules:
-      - name: blank-imports
-      - name: context-as-first-argument
-      - name: error-return
-      - name: error-strings
-      - name: error-naming
-      - name: exported
-      - name: if-return
-      - name: var-naming
+  settings:
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-first-argument
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: exported
+        - name: if-return
+        - name: var-naming
+
+formatters:
+  enable:
+    - gofmt         # gofmt に準拠したフォーマットチェック
+    - goimports     # import の自動ソート・未使用 import 検出
 
 issues:
-  exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0

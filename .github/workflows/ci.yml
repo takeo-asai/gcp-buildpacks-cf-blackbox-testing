@@ -17,6 +17,9 @@ jobs:
           - pubsub-to-bigquery-function
           - pubsub-to-pubsub-function
 
+    env:
+      MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
+
     steps:
       - uses: actions/checkout@v4
 
